@@ -29,3 +29,17 @@ This project is a web-based visualization tool for comparing the performance and
 - **HTML5**: Structure and layout of the page.
 - **CSS3**: Styling of the sorting containers and visual elements.
 - **JavaScript**: Core logic for sorting algorithms and visual animations.
+
+## Demo:
+
+https://sorting-algorithms-visuals.netlify.app/
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/sorting-algorithm-visualization.git
+   ```
+
+2. Navigate to the project folder and open iondex.html in a browser.
