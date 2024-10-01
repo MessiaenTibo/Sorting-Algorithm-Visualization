@@ -20,7 +20,29 @@ button {
   margin: 10px;
   padding: 10px 20px;
   font-size: 16px;
+  background-color: transparent;
+  border: 2px solid rgb(92, 65, 124);
+  color: rgb(92, 65, 124);
+  font-weight: 800;
+  outline: none;
   cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background-color: rgb(92, 65, 124);
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+#buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
 .containers {
