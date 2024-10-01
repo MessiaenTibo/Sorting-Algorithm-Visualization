@@ -10,6 +10,12 @@ const insertionSortTimer = document.getElementById('insertionSortTimer');
 const mergeSortTimer = document.getElementById('mergeSortTimer');
 const quickSortTimer = document.getElementById('quickSortTimer');
 const selectionSortTimer = document.getElementById('selectionSortTimer');
+// Get Buttons
+const startSortBtn = document.getElementById('startSortBtn');
+const generateArrayBtn = document.getElementById('generateArrayBtn');
+
+// Array to store the random array
+let array = [];
 
 // Timers (in seconds) for each sorting algorithm
 let bubbleSortTime = 0;
@@ -132,7 +138,7 @@ async function mergeSort(array, start, end, container) {
   await mergeSortHelper(array, start, end, container);
 
   // Display the final time
-  mergeSortTime = (Date.now() - startTime) / 1000;
+  mergeSortTime = (Date.now() - startTimeMergeSort) / 1000;
   mergeSortTimer.textContent = mergeSortTime.toFixed(2);
 }
 
@@ -279,14 +285,14 @@ async function selectionSort(array, container) {
 }
 
 // Event listener for the 'Start Sorting' button
-document.getElementById('startSortBtn').addEventListener('click', async () => {
-  // Check if a sorting precess is already running
+startSortBtn.addEventListener('click', async () => {
+  // Check if a sorting process is already running
   if (isSorting) return;
 
   // Set the isSorting flag to true to prevent multiple sorting processes
   isSorting = true;
-
-  let array = generateRandomArray();
+  // Disable the 'Generate New Array' button while sorting
+  generateArrayBtn.disabled = true;
 
   // Clone the array for each algorithm
   let bubbleArray = [...array];
@@ -302,21 +308,26 @@ document.getElementById('startSortBtn').addEventListener('click', async () => {
   displayArray(quickArray, quickSortBars);
   displayArray(selectionArray, selectionSortBars);
 
-  // Run the sorting algorithms simultaneously
-  RunningAlgorithms = await Promise.all([
+  // Create an array to store promises for each sorting algorithm
+  const sortingPromises = [
     bubbleSort(bubbleArray, bubbleSortBars),
     insertionSort(insertionArray, insertionSortBars),
     mergeSort(mergeArray, 0, mergeArray.length - 1, mergeSortBars),
     quickSort(quickArray, 0, quickArray.length - 1, quickSortBars),
     selectionSort(selectionArray, selectionSortBars),
-  ]).finally(() => {
-    // Set the isSorting flag to false after the sorting is done
+  ];
+
+  // Wait for all sorting algorithms to finish
+  await Promise.all(sortingPromises).then(() => {
+    // Once all sorting algorithms are done, set the isSorting flag to false
     isSorting = false;
+    // Enable the 'Generate New Array' button after sorting
+    generateArrayBtn.disabled = false;
   });
 });
 
 // Event listener for the 'Generate New Array' button
-document.getElementById('generateArrayBtn').addEventListener('click', () => {
+generateArrayBtn.addEventListener('click', () => {
   // Stop the sorting algorithms if they are running
   RunningAlgorithms.forEach((algorithm) => {
     if (algorithm) {
@@ -326,6 +337,7 @@ document.getElementById('generateArrayBtn').addEventListener('click', () => {
 
   // Generate a new random array
   const newArray = generateRandomArray();
+  array = newArray;
 
   // Display the new arrays in each container
   displayArray(newArray, bubbleSortBars);
@@ -338,6 +350,7 @@ document.getElementById('generateArrayBtn').addEventListener('click', () => {
 // Generate an initial random array when the page loads
 window.onload = () => {
   const randomArray = generateRandomArray();
+  array = randomArray;
   displayArray(randomArray, bubbleSortBars);
   displayArray(randomArray, insertionSortBars);
   displayArray(randomArray, mergeSortBars);
