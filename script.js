@@ -21,6 +21,8 @@ const delay = 40; // Delay in milliseconds for the sorting visualization
 let RunningAlgorithms = []; // Array to store the running algorithms
 const AmountOfBars = window.innerWidth < 500 ? 30 : 50; // try to display 50 bars but show only 30 on mobile
 
+let isSorting = false;
+
 // Function to generate a random array
 function generateRandomArray(size = AmountOfBars) {
   let array = [];
@@ -278,6 +280,12 @@ async function selectionSort(array, container) {
 
 // Event listener for the 'Start Sorting' button
 document.getElementById('startSortBtn').addEventListener('click', async () => {
+  // Check if a sorting precess is already running
+  if (isSorting) return;
+
+  // Set the isSorting flag to true to prevent multiple sorting processes
+  isSorting = true;
+
   let array = generateRandomArray();
 
   // Clone the array for each algorithm
@@ -301,7 +309,10 @@ document.getElementById('startSortBtn').addEventListener('click', async () => {
     mergeSort(mergeArray, 0, mergeArray.length - 1, mergeSortBars),
     quickSort(quickArray, 0, quickArray.length - 1, quickSortBars),
     selectionSort(selectionArray, selectionSortBars),
-  ]);
+  ]).finally(() => {
+    // Set the isSorting flag to false after the sorting is done
+    isSorting = false;
+  });
 });
 
 // Event listener for the 'Generate New Array' button
