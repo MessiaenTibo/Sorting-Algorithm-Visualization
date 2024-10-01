@@ -4,6 +4,18 @@ const insertionSortBars = document.getElementById('insertionSortBars');
 const mergeSortBars = document.getElementById('mergeSortBars');
 const quickSortBars = document.getElementById('quickSortBars');
 const selectionSortBars = document.getElementById('selectionSortBars');
+// Get the timer placeholders for each sorting algorithm
+const bubbleSortTimer = document.getElementById('bubbleSortTimer');
+const insertionSortTimer = document.getElementById('insertionSortTimer');
+const mergeSortTimer = document.getElementById('mergeSortTimer');
+const quickSortTimer = document.getElementById('quickSortTimer');
+const selectionSortTimer = document.getElementById('selectionSortTimer');
+
+// Timers (in seconds) for each sorting algorithm
+let bubbleSortTime = 0;
+let insertionSortTime = 0;
+let mergeSortTime = 0;
+let quickSortTime = 0;
 
 const delay = 40; // Delay in milliseconds for the sorting visualization
 let RunningAlgorithms = []; // Array to store the running algorithms
@@ -37,6 +49,9 @@ function sleep(ms) {
 // Bubble Sort Visualization
 async function bubbleSort(array, container) {
   const bars = container.getElementsByClassName('bar');
+  // Start the timer
+  const startTime = Date.now();
+
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = 0; j < array.length - i - 1; j++) {
       bars[j].style.backgroundColor = 'red';
@@ -49,15 +64,26 @@ async function bubbleSort(array, container) {
       }
 
       await sleep(delay);
+      // Update the timer
+      bubbleSortTime = (Date.now() - startTime) / 1000;
+      bubbleSortTimer.textContent = bubbleSortTime.toFixed(2);
+
+      // Reset the colors
       bars[j].style.backgroundColor = 'rgb(92, 65, 124)';
       bars[j + 1].style.backgroundColor = 'rgb(92, 65, 124)';
     }
   }
+
+  // Display the final time
+  bubbleSortTimer.textContent = bubbleSortTime.toFixed(2);
 }
 
 // Insertion Sort Visualization
 async function insertionSort(array, container) {
   const bars = container.getElementsByClassName('bar');
+  // Start the timer
+  const startTime = Date.now();
+
   for (let i = 1; i < array.length; i++) {
     let key = array[i];
     let j = i - 1;
@@ -67,6 +93,11 @@ async function insertionSort(array, container) {
       array[j + 1] = array[j];
       bars[j + 1].style.backgroundColor = 'red';
       await sleep(delay);
+      // Update the timer
+      insertionSortTime = (Date.now() - startTime) / 1000;
+      insertionSortTimer.textContent = insertionSortTime.toFixed(2);
+
+      // Reset the colors
       bars[j + 1].style.backgroundColor = 'rgb(92, 65, 124)';
       j = j - 1;
     }
@@ -74,17 +105,33 @@ async function insertionSort(array, container) {
     array[j + 1] = key;
     bars[j + 1].style.height = `${key}px`;
   }
+
+  // Display the final time
+  insertionSortTimer.textContent = insertionSortTime.toFixed(2);
 }
+
+let startTimeMergeSort = 0;
 
 // Merge Sort Visualization
 async function mergeSort(array, start, end, container) {
-  if (start >= end) return;
+  // Start the timer for Merge Sort
+  startTimeMergeSort = Date.now();
 
-  const middle = Math.floor((start + end) / 2);
-  await mergeSort(array, start, middle, container);
-  await mergeSort(array, middle + 1, end, container);
+  async function mergeSortHelper(array, start, end, container) {
+    if (start >= end) return;
 
-  await merge(array, start, middle, end, container);
+    const middle = Math.floor((start + end) / 2);
+    await mergeSortHelper(array, start, middle, container);
+    await mergeSortHelper(array, middle + 1, end, container);
+
+    await merge(array, start, middle, end, container);
+  }
+
+  await mergeSortHelper(array, start, end, container);
+
+  // Display the final time
+  mergeSortTime = (Date.now() - startTime) / 1000;
+  mergeSortTimer.textContent = mergeSortTime.toFixed(2);
 }
 
 async function merge(array, start, middle, end, container) {
@@ -109,6 +156,11 @@ async function merge(array, start, middle, end, container) {
     }
     await sleep(delay);
     bars[k].style.backgroundColor = 'rgb(92, 65, 124)';
+
+    // Update the timer during merge process
+    mergeSortTime = (Date.now() - startTimeMergeSort) / 1000;
+    mergeSortTimer.textContent = mergeSortTime.toFixed(2);
+
     k++;
   }
 
@@ -127,13 +179,26 @@ async function merge(array, start, middle, end, container) {
   }
 }
 
+let startTimeQuickSort = 0;
+
 // Quick Sort Visualization
 async function quickSort(array, low, high, container) {
-  if (low < high) {
-    let pi = await partition(array, low, high, container);
-    await quickSort(array, low, pi - 1, container);
-    await quickSort(array, pi + 1, high, container);
+  // Start the timer for Quick Sort
+  startTimeQuickSort = Date.now();
+
+  async function quickSortHelper(array, low, high, container) {
+    if (low < high) {
+      let pi = await partition(array, low, high, container);
+      await quickSortHelper(array, low, pi - 1, container);
+      await quickSortHelper(array, pi + 1, high, container);
+    }
   }
+
+  await quickSortHelper(array, low, high, container);
+
+  // Display the final time
+  quickSortTime = (Date.now() - startTimeQuickSort) / 1000;
+  quickSortTimer.textContent = quickSortTime.toFixed(2);
 }
 
 async function partition(array, low, high, container) {
@@ -151,6 +216,10 @@ async function partition(array, low, high, container) {
       bars[j].style.height = `${array[j]}px`;
     }
     await sleep(delay);
+    // Update the timer
+    quickSortTime = (Date.now() - startTimeQuickSort) / 1000;
+    quickSortTimer.textContent = quickSortTime.toFixed(2);
+    // Reset the colors
     bars[j].style.backgroundColor = 'rgb(92, 65, 124)';
   }
 
@@ -158,13 +227,21 @@ async function partition(array, low, high, container) {
   bars[high].style.height = `${array[high]}px`;
   bars[i + 1].style.height = `${array[i + 1]}px`;
   await sleep(delay);
+  // Update the timer
+  quickSortTime = (Date.now() - startTimeQuickSort) / 1000;
+  quickSortTimer.textContent = quickSortTime.toFixed(2);
+  // Reset the colors
   bars[high].style.backgroundColor = 'rgb(92, 65, 124)';
+
   return i + 1;
 }
 
 // Selection Sort Visualization
 async function selectionSort(array, container) {
   const bars = container.getElementsByClassName('bar');
+  // Start the timer
+  const startTime = Date.now();
+
   for (let i = 0; i < array.length; i++) {
     let minIndex = i;
     bars[minIndex].style.backgroundColor = 'red';
@@ -178,6 +255,11 @@ async function selectionSort(array, container) {
         bars[minIndex].style.backgroundColor = 'red';
       }
       await sleep(delay);
+      // Update the timer
+      selectionSortTime = (Date.now() - startTime) / 1000;
+      selectionSortTimer.textContent = selectionSortTime.toFixed(2);
+
+      // Reset the colors
       bars[j].style.backgroundColor = 'rgb(92, 65, 124)';
     }
 
@@ -189,6 +271,9 @@ async function selectionSort(array, container) {
 
     bars[i].style.backgroundColor = 'rgb(92, 65, 124)';
   }
+
+  // Display the final time
+  selectionSortTimer.textContent = selectionSortTime.toFixed(2);
 }
 
 // Event listener for the 'Start Sorting' button
