@@ -33,24 +33,56 @@
       <button id="generateArrayBtn">Generate New Array</button>
     </div>
 
+    <div id="checkboxContainer">
+      <label class="container"
+        >Bubble Sort
+        <input id="showBubbleSort" type="checkbox" checked="checked" />
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="container"
+        >Insertion Sort
+        <input id="showInsertionSort" type="checkbox" checked="checked" />
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="container"
+        >Merge Sort
+        <input id="showMergeSort" type="checkbox" checked="checked" />
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="container"
+        >Quick Sort
+        <input id="showQuickSort" type="checkbox" checked="checked" />
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="container"
+        >Selection Sort
+        <input id="showSelectionSort" type="checkbox" checked="checked" />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+
     <div class="containers">
-      <div class="sort-container">
+      <div id="bubbleSortContainer" class="sort-container">
         <h2>Bubble Sort (<b id="bubbleSortTimer">0</b>S)</h2>
         <div id="bubbleSortBars" class="array-bars"></div>
       </div>
-      <div class="sort-container">
+      <div id="insertionSortContainer" class="sort-container">
         <h2>Insertion Sort (<b id="insertionSortTimer">0</b>S)</h2>
         <div id="insertionSortBars" class="array-bars"></div>
       </div>
-      <div class="sort-container">
+      <div id="mergeSortContainer" class="sort-container">
         <h2>Merge Sort (<b id="mergeSortTimer">0</b>S)</h2>
         <div id="mergeSortBars" class="array-bars"></div>
       </div>
-      <div class="sort-container">
+      <div id="quickSortContainer" class="sort-container">
         <h2>Quick Sort (<b id="quickSortTimer">0</b>S)</h2>
         <div id="quickSortBars" class="array-bars"></div>
       </div>
-      <div class="sort-container">
+      <div id="selectionSortContainer" class="sort-container">
         <h2>Selection Sort (<b id="selectionSortTimer">0</b>S)</h2>
         <div id="selectionSortBars" class="array-bars"></div>
       </div>

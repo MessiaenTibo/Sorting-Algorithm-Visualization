@@ -13,6 +13,22 @@ const selectionSortTimer = document.getElementById('selectionSortTimer');
 // Get Buttons
 const startSortBtn = document.getElementById('startSortBtn');
 const generateArrayBtn = document.getElementById('generateArrayBtn');
+// Get Checkboxes
+const showBubbleSort = document.getElementById('showBubbleSort');
+const showInsertionSort = document.getElementById('showInsertionSort');
+const showMergeSort = document.getElementById('showMergeSort');
+const showQuickSort = document.getElementById('showQuickSort');
+const showSelectionSort = document.getElementById('showSelectionSort');
+// Get the container for the sorting algorithms
+const bubbleSortContainer = document.getElementById('bubbleSortContainer');
+const insertionSortContainer = document.getElementById(
+  'insertionSortContainer'
+);
+const mergeSortContainer = document.getElementById('mergeSortContainer');
+const quickSortContainer = document.getElementById('quickSortContainer');
+const selectionSortContainer = document.getElementById(
+  'selectionSortContainer'
+);
 
 // Array to store the random array
 let array = [];
@@ -345,6 +361,23 @@ generateArrayBtn.addEventListener('click', () => {
   displayArray(newArray, mergeSortBars);
   displayArray(newArray, quickSortBars);
   displayArray(newArray, selectionSortBars);
+});
+
+// Event listeners for the checkboxes to show/hide the sorting algorithms
+showBubbleSort.addEventListener('change', () => {
+  bubbleSortContainer.classList.toggle('hidden');
+});
+showInsertionSort.addEventListener('change', () => {
+  insertionSortContainer.classList.toggle('hidden');
+});
+showMergeSort.addEventListener('change', () => {
+  mergeSortContainer.classList.toggle('hidden');
+});
+showQuickSort.addEventListener('change', () => {
+  quickSortContainer.classList.toggle('hidden');
+});
+showSelectionSort.addEventListener('change', () => {
+  selectionSortContainer.classList.toggle('hidden');
 });
 
 // Generate an initial random array when the page loads
